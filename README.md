@@ -9,5 +9,5 @@ Another version of this is on [MineSweeper-p5.js](https://github.com/ZOASR/MineS
 **Other versions online:**
 
 - [Minesweeperonline](https://minesweeperonline.com/)
-- [CardGamed.io](https://cardgames.io/minesweeper/)
+- [CardGames.io](https://cardgames.io/minesweeper/)
 - [Minesweeper](https://minesweeper-pro.com/)
