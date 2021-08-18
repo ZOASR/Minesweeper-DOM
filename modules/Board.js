@@ -8,8 +8,6 @@ import {
 	createResetButton,
 	hideElement,
 	showElement,
-	removeChildren,
-	Image
 } from './DOM.js';
 
 export class Board {
@@ -69,10 +67,10 @@ export class Board {
 		//Board
 		this.board_elt = document.createElement("div");
 		this.board_elt.classList.add("board");
-		this.board_elt.style.gridTemplateRows = `repeat(${this.rows}, ${this.scl}px)`;
-		this.board_elt.style.gridTemplateColumns = `repeat(${this.cols}, ${this.scl}px)`;
-		document.querySelector(".container").appendChild(this.board_elt);
-		document.querySelector(".container").style.display = "grid";
+		this.board_elt.style.gridTemplateRows = `repeat(${this.rows}, 1fr)`;
+		const boardContainer = document.querySelector(".container");
+		boardContainer.appendChild(this.board_elt);
+		boardContainer.style.display = "grid";
 
 		//Bombs left
 		this.bombsBoard.style.display = "block";
@@ -80,7 +78,7 @@ export class Board {
 
 
 		//Gamemode
-		this.button = createFlagButton("", document.querySelector(".panel .mode_change"));
+		this.button = createFlagButton("", document.querySelector(".container .mode_change"));
 		this.button.src = "assets/bomb.jpg";
 		hideElement(this.button);
 		this.button.onclick = () => {
@@ -135,7 +133,7 @@ export class Board {
 		this.firstPlay = true;
 		this.hidden = true;
 		hideElement(document.querySelector(".container"));
-		document.querySelector(".panel .mode_change").removeChild(this.button);
+		document.querySelector(".container .mode_change").removeChild(this.button);
 		this.board_elt.remove();
 		showElement(document.getElementById("menu"));
 		document.getElementById("menu").style.display = "inline-table";

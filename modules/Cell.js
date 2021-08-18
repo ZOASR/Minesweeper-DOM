@@ -18,7 +18,7 @@ export class Cell {
 		this.markedMines = 0;
 		this.mine = false;
 		this.board = board;
-		this.cell = createCell(`width: ${this.board.scl}px; height: ${this.board.scl}px;`, this.board.board_elt);
+		this.cell = createCell(``, this.board.board_elt);
 		this.cell.onclick = () => {
 			this.board.bombsBoard.innerHTML = this.board.bombs;
 			this.board.check(this);
@@ -30,10 +30,12 @@ export class Cell {
 		this.checkNeighbor();
 		this.checkMarked();
 		if (this.revealed) {
+			this.cell.classList.remove("block");
 			removeChildren(this.cell);
-			this.cell.style.cssText += "border-width: 1px;";
-		} else {
-			Image("assets/square.png", this.cell);
+			this.cell.style.cssText += "border-width: calc(0.1vw);";
+		}
+		if (!this.revealed && !this.marked) {
+			this.cell.classList.add("block")
 		}
 		if (this.marked) {
 			const gs = this.board.gameState;
@@ -43,7 +45,6 @@ export class Cell {
 		if (this.mine && this.revealed) {
 			Image("assets/bomb.jpg", this.cell);
 		} else if (this.revealed) {
-			this.cell.style.cssText += `font-size: ${this.board.scl - 5}px;`;
 			if (this.revealed && !this.marked) {
 				switch (this.total) {
 					case 1:
@@ -84,6 +85,7 @@ export class Cell {
 	}
 
 	Mark() {
+		this.cell.classList.remove("block");
 		if (!this.revealed && this.board.bombs - this.board.markedBombs >= 0) {
 			this.marked = true;
 			this.board.markedBombs++;
@@ -95,6 +97,8 @@ export class Cell {
 	}
 
 	UnMark() {
+		this.cell.classList.add("block");
+		removeChildren(this.cell);
 		if (!this.revealed && this.board.bombs - this.board.markedBombs >= 0) {
 			this.marked = false;
 			this.board.markedBombs--;
@@ -128,6 +132,7 @@ export class Cell {
 	}
 
 	reveal() {
+		this.cell.classList.remove("block");
 		this.revealed = true;
 		this.floodFill();
 		if (this.mine) {

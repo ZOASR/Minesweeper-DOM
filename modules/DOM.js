@@ -41,7 +41,7 @@ export function createFlagButton(Label, parent) {
 export function createResetButton(Label) {
 	const btn = document.createElement("button");
 	btn.innerHTML = Label;
-	document.querySelector(".panel .reset_div").appendChild(btn);
+	document.querySelector(".container .reset_div").appendChild(btn);
 	btn.classList.add("reset_button");
 	return btn;
 }
