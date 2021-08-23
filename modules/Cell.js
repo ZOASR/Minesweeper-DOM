@@ -1,17 +1,9 @@
-import {
-	Image,
-	createCell,
-	removeChildren,
-} from './DOM.js';
-
-
+import { Image, createCell, removeChildren } from "./DOM.js";
 
 export class Cell {
 	constructor(i, j, board) {
 		this.i = i;
 		this.j = j;
-		this.x = this.i * (board.scl);
-		this.y = this.j * (board.scl);
 		this.revealed = false;
 		this.marked = false;
 		this.total = 0;
@@ -35,12 +27,14 @@ export class Cell {
 			this.cell.style.cssText += "border-width: calc(0.1vw);";
 		}
 		if (!this.revealed && !this.marked) {
-			this.cell.classList.add("block")
+			this.cell.classList.add("block");
 		}
 		if (this.marked) {
 			const gs = this.board.gameState;
 			const gss = this.board.gameStates;
-			(gs == gss.GAME_OVER) ? Image("assets/flag_error.png", this.cell): Image("assets/flag.png", this.cell);
+			gs == gss.GAME_OVER
+				? Image("assets/flag_error.png", this.cell)
+				: Image("assets/flag.png", this.cell);
 		}
 		if (this.mine && this.revealed) {
 			Image("assets/bomb.jpg", this.cell);
@@ -119,7 +113,12 @@ export class Cell {
 			for (let yoff = -1; yoff <= 1; yoff++) {
 				const i_ = this.i + xoff;
 				const j_ = this.j + yoff;
-				if (i_ > -1 && i_ < this.board.cols && j_ > -1 && j_ < this.board.rows) {
+				if (
+					i_ > -1 &&
+					i_ < this.board.cols &&
+					j_ > -1 &&
+					j_ < this.board.rows
+				) {
 					const neighbor = this.board.grid[i_][j_];
 					if (neighbor.mine) {
 						total++;
@@ -145,12 +144,25 @@ export class Cell {
 			for (let yoff = -1; yoff <= 1; yoff++) {
 				const i_ = this.i + xoff;
 				const j_ = this.j + yoff;
-				if (i_ > -1 && i_ < this.board.cols && j_ > -1 && j_ < this.board.rows) {
+				if (
+					i_ > -1 &&
+					i_ < this.board.cols &&
+					j_ > -1 &&
+					j_ < this.board.rows
+				) {
 					const neighbor = this.board.grid[i_][j_];
-					if (!neighbor.mine && !neighbor.revealed && this.total == 0) {
+					if (
+						!neighbor.mine &&
+						!neighbor.revealed &&
+						this.total == 0
+					) {
 						neighbor.reveal();
 						neighbor.UnMark();
-					} else if (!neighbor.revealed && !neighbor.marked && this.markedMines == this.total) {
+					} else if (
+						!neighbor.revealed &&
+						!neighbor.marked &&
+						this.markedMines == this.total
+					) {
 						neighbor.reveal();
 						neighbor.UnMark();
 					}
@@ -165,7 +177,12 @@ export class Cell {
 			for (let yoff = -1; yoff <= 1; yoff++) {
 				const i_ = this.i + xoff;
 				const j_ = this.j + yoff;
-				if (i_ > -1 && i_ < this.board.cols && j_ > -1 && j_ < this.board.rows) {
+				if (
+					i_ > -1 &&
+					i_ < this.board.cols &&
+					j_ > -1 &&
+					j_ < this.board.rows
+				) {
 					const neighbor = this.board.grid[i_][j_];
 					if (neighbor.marked) {
 						Mtotal++;

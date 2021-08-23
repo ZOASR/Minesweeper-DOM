@@ -1,6 +1,4 @@
-import {
-	Cell
-} from './Cell.js';
+import { Cell } from "./Cell.js";
 import {
 	make2DArray,
 	createButton,
@@ -8,7 +6,7 @@ import {
 	createResetButton,
 	hideElement,
 	showElement,
-} from './DOM.js';
+} from "./DOM.js";
 
 export class Board {
 	constructor(cols, rows, scl) {
@@ -33,23 +31,23 @@ export class Board {
 		this.firstPlay = true;
 		this.bombsBoard = document.querySelector(".bombs");
 		this.board_elt = undefined;
-		this.button = undefined;
+		this.changeModeButton = undefined;
 		this.easy = createButton("Easy: 50 Mines");
 		this.easy.onclick = () => {
 			this.bombs = 50;
 			this.populateBoard();
 		};
-		this.medium = createButton('Medium: 150 Mines');
+		this.medium = createButton("Medium: 150 Mines");
 		this.medium.onclick = () => {
 			this.bombs = 150;
 			this.populateBoard();
 		};
-		this.hard = createButton('Hard: 250 Mines');
+		this.hard = createButton("Hard: 250 Mines");
 		this.hard.onclick = () => {
 			this.bombs = 250;
 			this.populateBoard();
 		};
-		this.resetButton = createResetButton('Reset Game!');
+		this.resetButton = createResetButton("Reset Game!");
 		this.resetButton.onclick = () => this.resetBoard();
 
 		hideElement(document.querySelector(".container"));
@@ -76,31 +74,32 @@ export class Board {
 		this.bombsBoard.style.display = "block";
 		this.bombsBoard.innerText = `${this.bombs}`;
 
-
 		//Gamemode
-		this.button = createFlagButton("", document.querySelector(".container .mode_change"));
-		this.button.src = "assets/bomb.jpg";
-		hideElement(this.button);
-		this.button.onclick = () => {
+		this.changeModeButton = createFlagButton(
+			"",
+			document.querySelector(".container .mode_change")
+		);
+		this.changeModeButton.src = "assets/bomb.jpg";
+		hideElement(this.changeModeButton);
+		this.changeModeButton.onclick = () => {
 			this.bombMode = !this.bombMode;
 			if (this.bombMode) {
-				this.button.src = "assets/bomb.jpg";
+				this.changeModeButton.src = "assets/bomb.jpg";
 			} else {
-				this.button.src = "assets/flag.png";
+				this.changeModeButton.src = "assets/flag.png";
 			}
 		};
 
-
 		hideElement(document.getElementById("menu"));
-		showElement(this.button);
+		showElement(this.changeModeButton);
 		for (let i = 0; i < this.cols; i++) {
 			for (let j = 0; j < this.rows; j++) {
 				this.grid[i][j] = new Cell(i, j, this);
 			}
 		}
 		while (this.n < this.bombs) {
-			let x = Math.floor(Math.random() * this.cols);
-			let y = Math.floor(Math.random() * this.rows);
+			const x = Math.floor(Math.random() * this.cols);
+			const y = Math.floor(Math.random() * this.rows);
 			if (!this.grid[x][y].mine) {
 				this.grid[x][y].mine = true;
 				this.n++;
@@ -116,6 +115,7 @@ export class Board {
 
 	resetBoard() {
 		this.setGameState(this.gameStates.START);
+
 		for (let i = 0; i < this.cols; i++) {
 			for (let j = 0; j < this.rows; j++) {
 				this.grid[i][j].revealed = false;
@@ -124,6 +124,7 @@ export class Board {
 				this.grid[i][j].total = 0;
 			}
 		}
+
 		this.bombs = 0;
 		this.markedBombs = 0;
 		this.actualBombs = 0;
@@ -132,13 +133,15 @@ export class Board {
 		this.bombMode = true;
 		this.firstPlay = true;
 		this.hidden = true;
+
 		hideElement(document.querySelector(".container"));
-		document.querySelector(".container .mode_change").removeChild(this.button);
-		this.board_elt.remove();
 		showElement(document.getElementById("menu"));
 		document.getElementById("menu").style.display = "inline-table";
+		document
+			.querySelector(".container .mode_change")
+			.removeChild(this.changeModeButton);
+		this.board_elt.remove();
 	}
-
 
 	gameOver() {
 		this.setGameState(this.gameStates.GAME_OVER);
@@ -148,10 +151,9 @@ export class Board {
 				this.grid[i][j].show();
 			}
 		}
-		console.warn('Game Over');
+		console.warn("Game Over");
 		showElement(this.resetButton);
 	}
-
 
 	WIN() {
 		this.setGameState(this.gameStates.GAME_WON);
@@ -180,8 +182,8 @@ export class Board {
 						cell.mine = false;
 						cell.revealed = true;
 						while (b) {
-							let y = Math.floor(Math.random() * this.rows);
-							let x = Math.floor(Math.random() * this.cols);
+							const y = Math.floor(Math.random() * this.rows);
+							const x = Math.floor(Math.random() * this.cols);
 							if (!this.grid[x][y].mine) {
 								this.grid[x][y].mine = true;
 								for (let xoff = -1; xoff <= 1; xoff++) {
@@ -190,7 +192,16 @@ export class Board {
 										const j_ = cell.j + yoff;
 										const _i_ = x + xoff;
 										const _j_ = y + yoff;
-										if (i_ > -1 && i_ < this.cols && j_ > -1 && j_ < this.rows && _i_ > -1 && _i_ < this.cols && _j_ > -1 && _j_ < this.rows) {
+										if (
+											i_ > -1 &&
+											i_ < this.cols &&
+											j_ > -1 &&
+											j_ < this.rows &&
+											_i_ > -1 &&
+											_i_ < this.cols &&
+											_j_ > -1 &&
+											_j_ < this.rows
+										) {
 											this.grid[i_][j_].show();
 											this.grid[_i_][_j_].show();
 										}
@@ -206,14 +217,18 @@ export class Board {
 					} else if (!this.firstPlay && cell.mine) {
 						cell.reveal();
 					}
-
 				}
 			}
 		}
-		if ((this.actualBombs >= this.bombs || this.actualBombs >= this.n) && this.bombs > 0 && this.actualBombs > 0)
+		if (
+			(this.actualBombs >= this.bombs || this.actualBombs >= this.n) &&
+			this.bombs > 0 &&
+			this.actualBombs > 0
+		) {
 			this.WIN();
-		const bombsLeft = this.bombs - this.markedBombs;
-		(bombsLeft >= 0) ? this.bombsBoard.innerText = `${bombsLeft}`: this.bombsBoard.innerText = "0";
+		}
 
+		const bombsLeft = this.bombs - this.markedBombs;
+		this.bombsBoard.innerText = bombsLeft >= 0 ? `${bombsLeft}` : "0";
 	}
 }
