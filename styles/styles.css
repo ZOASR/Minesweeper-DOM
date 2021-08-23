@@ -55,8 +55,6 @@ a:visited:not(#exclude) {
 
 .container {
 	display: grid;
-	justify-items: center;
-	align-items: center;
 	border: var(--border-outset);
 	width: auto;
 	padding: 10px;
@@ -74,15 +72,7 @@ a:visited:not(#exclude) {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	color: green;
-	background-color: greenyellow;
-	/* box-shadow: 0 0 5px greenyellow; */
 	font-size: 75px;
-}
-
-#b_container>span {
-	text-shadow: 0 3px 5px rgb(102, 240, 61);
-	box-shadow: 0 0 20px greenyellow;
 }
 
 

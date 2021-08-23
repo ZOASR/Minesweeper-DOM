@@ -29,7 +29,7 @@ export class Board {
 		this.revealedBombs = 0;
 		this.bombMode = true;
 		this.firstPlay = true;
-		this.bombsBoard = document.querySelector(".bombs");
+		this.bombsBoard = document.querySelector("#b_container");
 		this.board_elt = undefined;
 		this.changeModeButton = undefined;
 		this.easy = createButton("Easy: 50 Mines");
@@ -71,6 +71,7 @@ export class Board {
 		boardContainer.style.display = "grid";
 
 		//Bombs left
+		this.dynamicColoring();
 		this.bombsBoard.style.display = "block";
 		this.bombsBoard.innerText = `${this.bombs}`;
 
@@ -160,6 +161,23 @@ export class Board {
 		showElement(this.resetButton);
 	}
 
+	dynamicColoring() {
+		const bombsLeft = this.bombs - this.markedBombs;
+		const hue = this.mapHue(bombsLeft, 0, this.bombs, 100, 0);
+		// this.bombsBoard.style.color = `hsl(${hue}, 100%, 50%) `;
+		// this.bombsBoard.style.backgroundColor = `hsl(${hue}, 100%, 30%) `;
+		this.bombsBoard.style.cssText += ` text-shadow: 0 3px 5px hsl(${hue}, 100%, 25%);
+												box-shadow: inset 0 0 20px hsl(${hue}, 100%, 50%);
+												background-color: hsl(${hue}, 100%, 35%);
+												color: hsl(${hue}, 100%, 50%); `;
+	}
+
+	mapHue(x, in_min, in_max, out_min, out_max) {
+		return (
+			((x - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
+		);
+	}
+
 	check(cell) {
 		this.setGameState(this.gameStates.PLAYING);
 		if (cell.mine && cell.revealed) {
@@ -230,5 +248,6 @@ export class Board {
 
 		const bombsLeft = this.bombs - this.markedBombs;
 		this.bombsBoard.innerText = bombsLeft >= 0 ? `${bombsLeft}` : "0";
+		this.dynamicColoring();
 	}
 }
