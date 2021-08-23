@@ -26,6 +26,28 @@ body {
 	font-family: "Share Tech Mono";
 }
 
+a:link:not(#exclude),
+a:visited:not(#exclude) {
+	text-decoration: none;
+	color: inherit;
+	cursor: pointer;
+}
+
+.title {
+	border: 3px #A7A6A7 solid;
+	background: #7b7b7b;
+	border-radius: 5px;
+	cursor: pointer;
+	padding: 5px;
+	transition: box-shadow 200ms, border-bottom 200ms;
+}
+
+.title:hover {
+	box-shadow:
+		0 0 2px #000, 0 5px 5px rgba(0, 0, 0, 0.37);
+	border-bottom: 5px #A7A6A7 solid;
+}
+
 .main-container {
 	display: inline-block;
 	margin: auto;
