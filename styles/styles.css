@@ -172,3 +172,22 @@ body {
 ._button:hover {
 	transform: scale(1.2, 1.2);
 }
+
+@media only screen and (max-device-width: 720px) {
+	.cell {
+		width: 3vw;
+		height: 3vw;
+		font-size: calc(3vw - 0.2vw);
+	}
+
+	.cell.block {
+		border-width: calc(3vw / 7);
+	}
+
+	.main-container {
+		display: block;
+		margin: 0;
+		width: 100%;
+	}
+
+}
