@@ -11,6 +11,13 @@ export class Cell {
 		this.mine = false;
 		this.board = board;
 		this.cell = createCell(``, this.board.board_elt);
+		this.cell.addEventListener("mousedown", (e) => {
+			if (!this.revealed)
+				this.board.setGameState(this.board.gameStates.CHECKING);
+		});
+		this.cell.addEventListener("mouseup", (e) => {
+			this.board.setGameState(this.board.gameStates.PLAYING);
+		});
 		this.cell.onclick = () => {
 			this.board.bombsBoard.innerHTML = this.board.bombs;
 			this.board.check(this);

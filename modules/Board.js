@@ -13,10 +13,21 @@ export class Board {
 		this.gameStates = {
 			START: "start",
 			PLAYING: "playing",
+			CHECKING: "checking",
 			GAME_OVER: "game_over",
 			GAME_WON: "game_won",
 		};
+		this.stateImages = {
+			start: "./assets/happy.png",
+			playing: "./assets/happy.png",
+			checking: "./assets/amazed.png",
+			game_over: "./assets/dead.png",
+			game_won: "./assets/cool.png",
+		};
 		this.gameState = undefined;
+		this.state_elt = document.querySelector(".state");
+		hideElement(this.state_elt);
+		this.stateImg_elt = document.querySelector(".state > img");
 		this.cols = cols;
 		this.rows = rows;
 		this.grid = make2DArray(cols, rows);
@@ -58,6 +69,7 @@ export class Board {
 
 	setGameState(state) {
 		this.gameState = state;
+		this.stateImg_elt.src = this.stateImages[state];
 	}
 
 	populateBoard() {
@@ -92,6 +104,7 @@ export class Board {
 		};
 
 		hideElement(document.getElementById("menu"));
+		showElement(this.state_elt);
 		showElement(this.changeModeButton);
 		for (let i = 0; i < this.cols; i++) {
 			for (let j = 0; j < this.rows; j++) {
@@ -135,6 +148,7 @@ export class Board {
 		this.firstPlay = true;
 		this.hidden = true;
 
+		hideElement(this.state_elt);
 		hideElement(document.querySelector(".container"));
 		showElement(document.getElementById("menu"));
 		document.getElementById("menu").style.display = "inline-table";
@@ -158,7 +172,6 @@ export class Board {
 
 	WIN() {
 		this.setGameState(this.gameStates.GAME_WON);
-		showElement(this.resetButton);
 	}
 
 	dynamicColoring() {
@@ -179,7 +192,6 @@ export class Board {
 	}
 
 	check(cell) {
-		this.setGameState(this.gameStates.PLAYING);
 		if (cell.mine && cell.revealed) {
 			this.gameOver();
 		}

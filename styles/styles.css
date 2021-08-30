@@ -185,6 +185,22 @@ a:visited:not(#exclude) {
 	transform: scale(1.2, 1.2);
 }
 
+.state {
+	font-family: "Share Tech Mono";
+	font-size: xx-large;
+	font-weight: bold;
+	text-align: center;
+	margin: 1em 40% 0 40%;
+}
+
+.state>img {
+	padding: 5px;
+	height: 10vh;
+	width: 10vh;
+	border-width: 1vh;
+	border-style: outset;
+}
+
 @media only screen and (max-device-width: 720px) {
 	.cell {
 		width: 3vw;
