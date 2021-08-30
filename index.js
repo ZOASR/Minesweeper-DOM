@@ -2,8 +2,8 @@ import {
 	Board
 } from './modules/Board.js';
 
-const rows = 30;
-const cols = 40;
+const rows = 25;
+const cols = 30;
 const scl = window.innerHeight / rows * 0.8;
 
 
