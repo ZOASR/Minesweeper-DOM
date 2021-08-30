@@ -14,7 +14,7 @@
 	--border-width: 8px;
 	--border-inset: #FBFAFB var(--border-width) inset;
 	--border-outset: #FBFAFB var(--border-width) outset;
-	--cell-scl: 1.5vw;
+	--cell-scl: 2.5vh;
 }
 
 body {
@@ -86,8 +86,6 @@ a:visited:not(#exclude) {
 }
 
 .reset_button {
-	/* position: absolute; */
-
 	font-family: "Share Tech Mono";
 	font-weight: bold;
 	font-size: 30px;
@@ -96,11 +94,13 @@ a:visited:not(#exclude) {
 	border-color: #FBFAFB;
 	border-style: outset;
 	border-width: 3px;
-	transition: border-width 200ms;
+	box-shadow: rgba(0, 0, 0, 0);
+	transition: transform 200ms, box-shadow 200ms;
 }
 
 .reset_button:hover {
-	border-width: 8px;
+	transform: scale(1.05, 1.05);
+	box-shadow: 0 10px 20px #00000022;
 }
 
 .mode_change {
