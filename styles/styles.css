@@ -147,6 +147,7 @@ a:visited:not(#exclude) {
 	width: var(--cell-scl);
 	height: var(--cell-scl);
 	font-size: calc(var(--cell-scl) - 0.2vw);
+	transition: border 0.05s linear;
 	background-color: #BBB;
 	border-color: #757575;
 	border-style: solid;
