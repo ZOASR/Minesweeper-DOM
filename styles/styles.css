@@ -10,6 +10,14 @@
 		U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+
+img {
+	-webkit-user-drag: none;
+	-khtml-user-drag: none;
+	-moz-user-drag: none;
+	-o-user-drag: none;
+}
+
 :root {
 	--border-width: 8px;
 	--border-inset: #FBFAFB var(--border-width) inset;
