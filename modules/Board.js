@@ -69,7 +69,8 @@ export class Board {
 
 	setGameState(state) {
 		this.gameState = state;
-		this.stateImg_elt.src = this.stateImages[state];
+		if (this.bombMode || state != this.gameStates.CHECKING)
+			this.stateImg_elt.src = this.stateImages[state];
 	}
 
 	populateBoard() {
