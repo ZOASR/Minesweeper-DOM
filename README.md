@@ -6,6 +6,10 @@ Another version of this is on [MineSweeper-p5.js](https://github.com/ZOASR/MineS
 
 ---
 
+**Play it:**
+
+[Minesweeper-DOM](https://zoasr.github.io/Minesweeper-DOM/)
+
 **Other versions online:**
 
 - [Minesweeperonline](https://minesweeperonline.com/)
