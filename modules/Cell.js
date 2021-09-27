@@ -40,15 +40,17 @@ export class Cell {
 			const gs = this.board.gameState;
 			const gss = this.board.gameStates;
 			gs == gss.GAME_OVER
-				? Image("assets/flag_error.png", this.cell)
-				: Image("assets/flag.png", this.cell);
+				? drawImage("assets/flag_error.png", this.cell)
+				: drawImage("assets/flag.png", this.cell);
 		}
 		if (this.mine && this.revealed) {
-			Image("assets/bomb.jpg", this.cell);
-		} else if (this.revealed) {
-			if (this.revealed && !this.marked) {
-				switch (this.total) {
-					case 1:
+			if (this.triggered)
+				drawImage("assets/bomb_exploded.jpg", this.cell);
+			else drawImage("assets/bomb_regular.png", this.cell);
+		} else if (this.revealed && !this.marked) {
+			this.cell.innerText = this.total ? this.total : "";
+			switch (this.total) {
+				case 1:
 						this.cell.innerText = "1";
 						this.cell.style.color = "#0400FB";
 						break;

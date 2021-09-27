@@ -46,7 +46,7 @@ export function createResetButton(Label) {
 	return btn;
 }
 
-export function Image(src, parent, css) {
+export function drawImage(src, parent, css) {
 	let img = document.createElement("img");
 	img.style.cssText = "width: inherit; height: inherit;" + css;
 	img.src = src;
