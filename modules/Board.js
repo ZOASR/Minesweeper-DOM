@@ -178,12 +178,11 @@ export class Board {
 	dynamicColoring() {
 		const bombsLeft = this.bombs - this.markedBombs;
 		const hue = this.mapHue(bombsLeft, 0, this.bombs, 100, 0);
-		// this.bombsBoard.style.color = `hsl(${hue}, 100%, 50%) `;
-		// this.bombsBoard.style.backgroundColor = `hsl(${hue}, 100%, 30%) `;
-		this.bombsBoard.style.cssText += ` text-shadow: 0 3px 5px hsl(${hue}, 100%, 25%);
-												box-shadow: inset 0 0 20px hsl(${hue}, 100%, 50%);
-												background-color: hsl(${hue}, 100%, 35%);
-												color: hsl(${hue}, 100%, 50%); `;
+		this.bombsBoard.style.cssText += `
+						text-shadow: 0 3px 5px hsl(${hue}, 100%, 25%);
+						box-shadow: inset 0 0 20px hsl(${hue}, 100%, 50%);
+						background-color: hsl(${hue}, 100%, 35%);
+						color: hsl(${hue}, 100%, 50%); `;
 	}
 
 	mapHue(x, in_min, in_max, out_min, out_max) {
@@ -195,61 +194,35 @@ export class Board {
 	check(cell) {
 		if (cell.mine && cell.revealed) {
 			this.gameOver();
-		}
-		if (this.bombs >= 50) {
-			if (!this.bombMode) {
-				if (!cell.marked) {
-					cell.Mark();
-				} else {
-					cell.UnMark();
-				}
-				if (cell.revealed) {
-					cell.floodFill();
-				}
-			} else if (this.bombMode) {
-				if (!cell.marked) {
-					if (this.firstPlay && cell.mine) {
-						let b = true;
-						cell.mine = false;
-						cell.revealed = true;
-						while (b) {
-							const y = Math.floor(Math.random() * this.rows);
-							const x = Math.floor(Math.random() * this.cols);
-							if (!this.grid[x][y].mine) {
-								this.grid[x][y].mine = true;
-								for (let xoff = -1; xoff <= 1; xoff++) {
-									for (let yoff = -1; yoff <= 1; yoff++) {
-										const i_ = cell.i + xoff;
-										const j_ = cell.j + yoff;
-										const _i_ = x + xoff;
-										const _j_ = y + yoff;
-										if (
-											i_ > -1 &&
-											i_ < this.cols &&
-											j_ > -1 &&
-											j_ < this.rows &&
-											_i_ > -1 &&
-											_i_ < this.cols &&
-											_j_ > -1 &&
-											_j_ < this.rows
-										) {
-											this.grid[i_][j_].show();
-											this.grid[_i_][_j_].show();
-										}
-									}
-								}
-								b = false;
-							}
-						}
-						this.firstPlay = false;
-					} else if (!cell.mine) {
-						cell.reveal();
-						this.firstPlay = false;
-					} else if (!this.firstPlay && cell.mine) {
-						cell.reveal();
-					}
+			return;
+		} else if (!this.bombMode) {
+			if (!cell.marked) {
+				cell.Mark();
+			} else {
+				cell.UnMark();
+			}
+			if (cell.revealed) {
+				cell.floodFill();
+			}
+		} else if (!cell.marked && this.firstPlay && cell.mine) {
+			let b = true;
+			cell.mine = false;
+			cell.revealed = true;
+			while (b) {
+				const y = Math.floor(Math.random() * this.rows);
+				const x = Math.floor(Math.random() * this.cols);
+				const new_cell = this.grid[x][y];
+				if (!new_cell.mine) {
+					new_cell.mine = true;
+					new_cell.showNeighbors();
+					cell.showNeighbors();
+					b = false;
 				}
 			}
+			this.firstPlay = false;
+		} else {
+			cell.reveal();
+			this.firstPlay = false;
 		}
 		if (
 			(this.actualBombs >= this.bombs || this.actualBombs >= this.n) &&

@@ -1,4 +1,4 @@
-import { Image, createCell, removeChildren } from "./DOM.js";
+import { drawImage, createCell, removeChildren } from "./DOM.js";
 
 export class Cell {
 	constructor(i, j, board) {
@@ -53,38 +53,29 @@ export class Cell {
 			this.cell.innerText = this.total ? this.total : "";
 			switch (this.total) {
 				case 1:
-						this.cell.innerText = "1";
-						this.cell.style.color = "#0400FB";
-						break;
-					case 2:
-						this.cell.innerText = "2";
-						this.cell.style.color = "green";
-						break;
-					case 3:
-						this.cell.innerText = "3";
-						this.cell.style.color = "red";
-						break;
-					case 4:
-						this.cell.innerText = "4";
-						this.cell.style.color = "#010180";
-						break;
-					case 5:
-						this.cell.innerText = "5";
-						this.cell.style.color = "#830003";
-						break;
-					case 6:
-						this.cell.innerText = "6";
-						this.cell.style.color = "#008180";
-						break;
-					case 7:
-						this.cell.innerText = "7";
-						this.cell.style.color = "black";
-						break;
-					case 8:
-						this.cell.innerText = "8";
-						this.cell.style.color = "#827F80";
-						break;
-				}
+					this.cell.style.color = "#0400FB";
+					break;
+				case 2:
+					this.cell.style.color = "green";
+					break;
+				case 3:
+					this.cell.style.color = "red";
+					break;
+				case 4:
+					this.cell.style.color = "#010180";
+					break;
+				case 5:
+					this.cell.style.color = "#830003";
+					break;
+				case 6:
+					this.cell.style.color = "#008180";
+					break;
+				case 7:
+					this.cell.style.color = "black";
+					break;
+				case 8:
+					this.cell.style.color = "#827F80";
+					break;
 			}
 		}
 	}
@@ -141,6 +132,18 @@ export class Cell {
 		return total;
 	}
 
+	showNeighbors() {
+		for (let xoff = -1; xoff <= 1; xoff++) {
+			for (let yoff = -1; yoff <= 1; yoff++) {
+				const i_ = this.i + xoff;
+				const j_ = this.j + yoff;
+				if (i_ > -1 && i_ < this.cols && j_ > -1 && j_ < this.rows) {
+					this.board.grid[i_][j_].show(true);
+				}
+			}
+		}
+	}
+
 	reveal() {
 		this.cell.classList.remove("block");
 		this.revealed = true;
@@ -163,17 +166,14 @@ export class Cell {
 				) {
 					const neighbor = this.board.grid[i_][j_];
 					if (
-						!neighbor.mine &&
-						!neighbor.revealed &&
-						this.total == 0
+						(!neighbor.mine &&
+							!neighbor.revealed &&
+							this.total == 0) ||
+						(!neighbor.revealed &&
+							!neighbor.marked &&
+							this.markedMines == this.total)
 					) {
-						neighbor.reveal();
-						neighbor.UnMark();
-					} else if (
-						!neighbor.revealed &&
-						!neighbor.marked &&
-						this.markedMines == this.total
-					) {
+						neighbor.triggered = true;
 						neighbor.reveal();
 						neighbor.UnMark();
 					}
