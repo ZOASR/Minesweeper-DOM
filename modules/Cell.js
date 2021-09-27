@@ -10,6 +10,7 @@ export class Cell {
 		this.markedMines = 0;
 		this.mine = false;
 		this.board = board;
+		this.triggered = false;
 		this.cell = createCell(``, this.board.board_elt);
 		this.cell.addEventListener("mousedown", (e) => {
 			if (!this.revealed)
@@ -21,6 +22,7 @@ export class Cell {
 		this.cell.onclick = () => {
 			this.board.bombsBoard.innerHTML = this.board.bombs;
 			this.board.check(this);
+			if (this.mine && this.board.bombMode) this.triggered = true;
 			this.show();
 		};
 	}

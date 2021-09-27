@@ -93,12 +93,12 @@ export class Board {
 			"",
 			document.querySelector(".container .mode_change")
 		);
-		this.changeModeButton.src = "assets/bomb.jpg";
+		this.changeModeButton.src = "assets/bomb_regular.png";
 		hideElement(this.changeModeButton);
 		this.changeModeButton.onclick = () => {
 			this.bombMode = !this.bombMode;
 			if (this.bombMode) {
-				this.changeModeButton.src = "assets/bomb.jpg";
+				this.changeModeButton.src = "assets/bomb_regular.png";
 			} else {
 				this.changeModeButton.src = "assets/flag.png";
 			}
